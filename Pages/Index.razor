@@ -8,7 +8,7 @@
     <InputText id="teste" @bind-Value="Model!.cpf" />
     <br />
     <br />
-    <button type="submit">Validar</button>
+    <button id="botaoValida" type="submit">Validar</button>
 </EditForm>
 
 @if (CpfValido && executou)
@@ -17,7 +17,7 @@
   <br />
   <div id="dvcpfvalido" style="color: #01937C;">CPF válido!</div>
 }
-@if (!CpfValido && executou)
+@if ((!CpfValido && executou) || (executou && ObjNulo))
 {
   <br />
   <br />
@@ -28,6 +28,7 @@
 
     private bool CpfValido;
     private bool executou = false;
+    private bool ObjNulo = true;
 
     public Documento? Model { get; set; }
 
@@ -36,8 +37,15 @@
     private void Submit()
     {
 
-        //Logger.LogInformation("Model.Id = {Id}", Model?.Id);
-        CpfValido = BlazorApp.Validacoes.ValidaCPF(Model.cpf);
+        if(Model.cpf == null || Model.cpf == "" || Model == null)
+        {
+          ObjNulo = true;
+        } else
+        {
+          CpfValido = BlazorApp.Validacoes.ValidaCPF(Model.cpf);
+          ObjNulo = false;
+        }
+        
         executou = true;
     }
 
