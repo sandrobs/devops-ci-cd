@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-ci-cd-dotnet
+spec:
+  selector:
+    app: devops-ci-cd-dotnet
+  ports:
+    - port: 5025
+      targetPort: 80
+  type: LoadBalancer

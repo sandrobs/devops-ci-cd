@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-ci-cd-dotnet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-ci-cd-dotnet
+  template:
+    metadata:
+      labels:
+        app: devops-ci-cd-dotnet
+    spec:
+      containers:
+        - name: app
+          image: sandrobs/devops-ci-cd-new:latest
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
