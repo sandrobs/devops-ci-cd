@@ -1,0 +1,48 @@
+﻿@page "/"
+@using BlazorApp;
+
+<PageTitle>Valida CPF</PageTitle>
+
+<EditForm Model="@Model" OnSubmit="@Submit">
+    <label for="teste">CPF:</label>
+    <InputText id="teste" @bind-Value="Model!.cpf" />
+    <br />
+    <br />
+    <button type="submit">Validar</button>
+</EditForm>
+
+@if (CpfValido && executou)
+{
+  <br />
+  <br />
+  <div id="dvcpfvalido" style="color: #01937C;">CPF válido!</div>
+}
+@if (!CpfValido && executou)
+{
+  <br />
+  <br />
+  <div id="dvcpfinvalido" style="color: #952323;" >CPF inválido!</div>
+}
+
+@code {
+
+    private bool CpfValido;
+    private bool executou = false;
+
+    public Documento? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private void Submit()
+    {
+
+        //Logger.LogInformation("Model.Id = {Id}", Model?.Id);
+        CpfValido = BlazorApp.Validacoes.ValidaCPF(Model.cpf);
+        executou = true;
+    }
+
+    public class Documento
+    {
+        public string? cpf { get; set; }
+    }
+}
